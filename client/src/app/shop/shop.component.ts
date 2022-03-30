@@ -33,7 +33,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProduct(this.shopParams).subscribe(res => {
+    this.shopService.getProducts(this.shopParams).subscribe(res => {
       this.products = res.data;
       this.shopParams.pageSize = res.pageSize;
       this.shopParams.pageNumber = res.pageIndex;

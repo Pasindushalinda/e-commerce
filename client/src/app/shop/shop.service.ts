@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { IBrands } from '../shared/models/brand';
 
 import { IPagination } from '../shared/models/pagination';
+import { IProducts } from '../shared/models/product';
 import { IType } from '../shared/models/productType';
 import { ShopParams } from './../shared/models/shopParams';
 
@@ -15,7 +16,7 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProduct(shopParams) {
+  getProducts(shopParams) {
     let params = new HttpParams();
 
     if (shopParams.brandId !== 0) {
@@ -48,5 +49,9 @@ export class ShopService {
 
   getTypes() {
     return this.http.get<IType[]>(this.baseUrl + 'products/types');
+  }
+
+  getProduct(id) {
+    return this.http.get<IProducts>(this.baseUrl + 'products/' + id);
   }
 }
