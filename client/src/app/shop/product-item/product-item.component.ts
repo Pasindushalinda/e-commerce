@@ -8,6 +8,7 @@ import { IProducts } from 'src/app/shared/models/product';
 })
 export class ProductItemComponent implements OnInit {
   @Input() product:IProducts;
+
   constructor() { }
 
   ngOnInit(): void {
