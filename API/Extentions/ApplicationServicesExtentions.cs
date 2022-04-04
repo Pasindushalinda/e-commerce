@@ -5,15 +5,22 @@ using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API.Extentions
 {
     public static class ApplicationServicesExtentions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddControllers();
+            services.AddDbContext<StoreContext>(x =>
+                x.UseSqlite(config.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(typeof(MappingProfiles));
 
@@ -32,6 +39,12 @@ namespace API.Extentions
                     };
                     return new BadRequestObjectResult(errorResponse);
                 };
+            });
+
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
             });
 
             return services;
