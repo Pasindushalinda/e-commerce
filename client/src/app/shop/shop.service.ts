@@ -1,18 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { IBrands } from '../shared/models/brand';
 
+import { environment } from 'src/environments/environment';
+import { IBrands } from '../shared/models/brand';
 import { IPagination } from '../shared/models/pagination';
 import { IProducts } from '../shared/models/product';
 import { IType } from '../shared/models/productType';
-import { ShopParams } from './../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl = 'https://localhost:5001/api/'
+   baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
